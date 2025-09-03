@@ -33,10 +33,6 @@ jobs:
           java-version: '21'
           cache: gradle
 
-      - name: Install native-image
-        run: gu install native-image
-        shell: pwsh
-
       - name: Set up MSVC dev prompt
         uses: ilammy/msvc-dev-cmd@v1
         with:
