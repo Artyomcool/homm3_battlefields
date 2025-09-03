@@ -1,0 +1,34 @@
+plugins {
+    id 'java'
+    id 'application'
+    id 'com.formkiq.gradle.graalvm-native-plugin' version '1.7.0'
+}
+
+group 'com.github.artyomcool'
+version '1.0'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.oxbow:swingbits:1.3.0'
+}
+
+application {
+    mainClass = 'battlefieldexplorer.BattlefieldExplorer'
+}
+nativeImage {
+    mainClassName = 'battlefieldexplorer.BattlefieldExplorer'
+}
+jar {
+    manifest {
+        attributes(
+                'Main-Class': 'battlefieldexplorer.BattlefieldExplorer'
+        )
+    }
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}

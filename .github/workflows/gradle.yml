@@ -1,0 +1,46 @@
+# This workflow will build a Java project with Gradle and cache/restore any dependencies to improve the workflow execution time
+# For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-gradle
+
+name: Java CI with Gradle
+
+on:
+  push:
+    branches: [ main ]
+jobs:
+  create-release:
+    runs-on: ubuntu-latest
+    outputs:
+      upload_url: ${{ steps.create-release.outputs.upload_url }}
+    steps:
+      - uses: "marvinpinto/action-automatic-releases@latest"
+        id: create-release
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          automatic_release_tag: "latest"
+          prerelease: true
+          title: "Development Build"
+
+  perform-release-windows:
+    runs-on: windows-2025
+    needs: create-release
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up JDK 17 x64
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          architecture: 'x64'
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+      - name: Create a package
+        run: ./gradlew nativeImage
+      - name: Upload Release Asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ needs.create-release.outputs.upload_url }}
+          asset_path: ./build/graalvm/**
+          asset_name: pack.zip
+          asset_content_type: application/zip
