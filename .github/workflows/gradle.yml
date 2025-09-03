@@ -38,8 +38,13 @@ jobs:
 
       - name: Build native image (Gradle)
         run: |
-         .\gradlew --no-daemon clean graalvmNativeImage
+         .\gradlew --no-daemon graalvmNativeImage
         shell: pwsh
+
+      - name: Zip pack
+        run: |
+          cd build/graalvm
+          zip -r ../../pack.zip .
 
       - uses: marvinpinto/action-automatic-releases@latest
         with:
