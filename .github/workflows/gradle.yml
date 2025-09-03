@@ -41,10 +41,11 @@ jobs:
          .\gradlew --no-daemon graalvmNativeImage
         shell: pwsh
 
-      - name: Zip pack
+      - name: Zip (Windows)
+        if: runner.os == 'Windows'
+        shell: pwsh
         run: |
-          cd build/graalvm
-          zip -r ../../pack.zip .
+          Compress-Archive -Path build/graalvm/* -DestinationPath pack.zip
 
       - uses: marvinpinto/action-automatic-releases@latest
         with:
