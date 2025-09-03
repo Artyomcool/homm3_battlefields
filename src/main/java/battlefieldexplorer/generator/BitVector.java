@@ -1,8 +1,5 @@
 package battlefieldexplorer.generator;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 public final class BitVector implements Cloneable {
 
   private static final long masks[] = new long[64];

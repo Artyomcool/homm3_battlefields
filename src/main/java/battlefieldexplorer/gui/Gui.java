@@ -14,7 +14,6 @@ import static javax.swing.UIManager.getInstalledLookAndFeels;
 import static javax.swing.UIManager.getLookAndFeelDefaults;
 import static javax.swing.UIManager.setLookAndFeel;
 import battlefieldexplorer.generator.*;
-import battlefieldexplorer.network.SocketListener;
 import battlefieldexplorer.search.*;
 import battlefieldexplorer.util.HexCellState;
 import battlefieldexplorer.util.HexTools;
@@ -58,7 +57,6 @@ public class Gui extends JFrame {
   private final ImageIcon rightBallistaD;
   private final ImageIcon rightAmmocartD;
   private final ImageIcon rightFirstaidD;
-  private final SocketListener socketListener;
   private Rectangle area = new Rectangle(-1, -1, -1, -1);
   private boolean showFirstaidL = false;
   private boolean showCatapultL = false;
@@ -108,8 +106,6 @@ public class Gui extends JFrame {
             .searchable(true)
             .apply();
     setupKeyNavigation();
-    socketListener = new SocketListener(this);
-    socketListener.start();
   }
 
   @Override
