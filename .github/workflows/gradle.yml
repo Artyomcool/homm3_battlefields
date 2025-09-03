@@ -45,7 +45,7 @@ jobs:
         if: runner.os == 'Windows'
         shell: pwsh
         run: |
-          Compress-Archive -Path build/graalvm/* -DestinationPath pack.zip
+          Compress-Archive -Path build/graalvm/java/main/* -DestinationPath pack.zip
 
       - uses: marvinpinto/action-automatic-releases@latest
         with:
